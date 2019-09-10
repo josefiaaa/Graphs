@@ -1,4 +1,5 @@
-
+import random
+import math
 
 class User:
     def __init__(self, name):
@@ -9,6 +10,9 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
+
+    def __repr__(self):
+        return f'Friendships:{self.friendships}'
 
     def addFriendship(self, userID, friendID):
         """
@@ -47,6 +51,21 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(0, numUsers):
+            self.addUser(f'Brian{i}')
+
+        possibleFriendships = []
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID +1):
+                possibleFriendships.append(userID, friendID)
+
+        random.shuffle(possibleFriendships)
+
+        for i in range(0, math.floor(numUsers * avgFriendships / 2)):
+            friendship = possibleFriendships[i]
+            self.addFriendship(friendship[0], friendship[1])
+
+        # random.sample(possibleFriendships, (numUsers * avgFriendships) // 2)
 
         # Create friendships
 
@@ -61,6 +80,7 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        
         return visited
 
 

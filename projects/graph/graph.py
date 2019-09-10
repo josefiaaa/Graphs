@@ -15,46 +15,54 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        if vertex not in self.vertices:
-            self.vertices[vertex] = set()
-        else:
-            f'Warning, vertex exists already.'
-    def add_edge(self, vertex_from, vertex_to):
+        # if vertex not in self.vertices:
+        #     self.vertices[vertex] = set()
+        # else:
+        #     f'Warning, vertex exists already.'
+        self.vertices[vertex] = set ()
+    def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        if vertex_from in self.vertices and vertex_to in self.vertices:
-            self.vertices[vertex_from].add(vertex_to)
-        else: 
-            print("Warning: this vertex does not exist.")
+        if v1 and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+
+        # Steps to complete the traversal
+
+        # Create an empty queue using the provided queue
         q = Queue()
-
+        # Create a set to store the nodes that we've visited
+        visited = set()
+        # Add starting_vertex to the queue
         q.enqueue(starting_vertex)
-
-        found = [starting_vertex, ]
-
+        # While the queue is not empty
+        # Iterate through each level starting at the first vert
         while q.size() > 0:
-            for vertex in self.vertices[q.queue[0]]:
-                if vertex not in found:
-                    q.enqueue(vertex)
-                    found.append(vertex)
+            
+        ### Dequeue the first vertex in the queue
+            current = q.dequeue()
+        ### If it hasn't been visited, visit it (add it to the set)
+            if current not in visited:
+                print(current)
+                visited.add(current)
+        ### Add its neighbors to the queue
+                for next_vert in self.vertices[current]:
+                    q.enqueue(next_vert)
 
-            q.dequeue()
-
-            print(f'BTF: {found}')
 
     def dft(self, starting_vertex):
         s = Stack()
 
-        s.push(starting_vertex)
-
         visited = set()
+
+        s.push(starting_vertex)
 
         while s.size() > 0:
             v = s.pop()
@@ -86,20 +94,39 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        q= Queue()
-        q.enqueue([starting_vertex])
+
+        q = Queue()
         visited = set()
+        q.enqueue([starting_vertex])
+
         while q.size() > 0:
             path = q.dequeue()
-            vertex = path[-1]
-            if vertex == destination_vertex:
-                return path
-            elif vertex not in visited:
-                visited.add(vertex)
-                for neighbor in self.vertices[vertex]:
-                    new_path = path[:]
-                    new_path.append(neighbor)
+            current = path[-1]
+            if current not in visited:
+                if current == destination_vertex:
+                    return path
+                visited.add(current)
+                for next_vert in self.vertices[current]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
                     q.enqueue(new_path)
+        
+        return "Value not found!"
+
+        # q = Queue()
+        # q.enqueue([starting_vertex])
+        # visited = set()
+        # while q.size() > 0:
+        #     path = q.dequeue()
+        #     vertex = path[-1]
+        #     if vertex == destination_vertex:
+        #         return path
+        #     elif vertex not in visited:
+        #         visited.add(vertex)
+        #         for neighbor in self.vertices[vertex]:
+        #             new_path = path[:]
+        #             new_path.append(neighbor)
+        #             q.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
