@@ -55,7 +55,8 @@ class SocialGraph:
             self.addUser(f'Brian{i}')
 
         possibleFriendships = []
-        for userID in self.users:
+
+        for userID in self.friendships:
             for friendID in range(userID + 1, self.lastID +1):
                 possibleFriendships.append(userID, friendID)
 
@@ -64,8 +65,6 @@ class SocialGraph:
         for i in range(0, math.floor(numUsers * avgFriendships / 2)):
             friendship = possibleFriendships[i]
             self.addFriendship(friendship[0], friendship[1])
-
-        # random.sample(possibleFriendships, (numUsers * avgFriendships) // 2)
 
         # Create friendships
 
